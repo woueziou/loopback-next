@@ -8,7 +8,7 @@
   "copyright.owner": "IBM Corp.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/loopbackio/loopback-next.git"
+    "url": "https://github.com/strongloop/loopback-next.git"
   },
   "engines": {
     "node": "^10.16 || 12 || 14 || 16",
@@ -34,7 +34,7 @@
     "version": "npm run update-template-deps && npm run update-package-deps && npm run save-cli-metadata",
     "outdated": "npm outdated --depth 0 && lerna exec --no-bail \"npm outdated --depth 0\"",
     "tsdocs": "lerna run --scope @loopback/tsdocs build:tsdocs",
-    "coverage:ci": "node packages/build/bin/run-nyc report --reporter=text-lcov | coveralls",
+    "coverage:ci": "node packages/build/bin/run-nyc report --reporter=text-lcov",
     "precoverage": "npm test",
     "coverage": "open-cli coverage/index.html",
     "lint": "npm run prettier:docs:check && npm run eslint && npm run monorepo:check",
@@ -63,10 +63,9 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
-    "@types/mocha": "^8.2.3",
+    "@types/mocha": "^8.2.2",
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.27.0",
-    "coveralls": "^3.1.0",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.29.0",

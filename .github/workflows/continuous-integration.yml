@@ -20,9 +20,11 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         node-version: [10, 12, 14, 16]
+        arch: [x64]
         include:
           - os: macos-latest
             node-version: 14 # LTS
+            arch: x64 # #TODO: For future planned integration with cross-arch CI testing.
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -44,6 +46,27 @@ jobs:
       - uses: Yuri6037/Action-FakeTTY@v1.1
       - name: Run tests
         run: faketty npm test --ignore-scripts
+      - name: Generate coverage report
+        run: |
+          mkdir ./coverage
+          npm run --silent coverage:ci --ignore-scripts > coverage/lcov.info
+      - name: Publish coverage report to Coveralls
+        if: ${{ github.event_name != 'schedule' }}
+        uses: coverallsapp/github-action@master
+        with:
+          flag-name: run-${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.node-version }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
+
+  posttest:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls finished
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true
 
   test-benchmark:
     name: Test Benchmark
